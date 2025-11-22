@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/intro_pages/intro_page1.dart';
-import 'package:project/intro_pages/intro_page2.dart';
-import 'package:project/intro_pages/intro_page3.dart';
+import 'package:project/screens/intro/intro_page1.dart';
+import 'package:project/screens/intro/intro_page2.dart';
+import 'package:project/screens/intro/intro_page3.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'login_page/Loginpage1.dart';
+import '../auth/login_page.dart';
 import 'package:get/get.dart';
 
 class Welcome extends StatefulWidget {

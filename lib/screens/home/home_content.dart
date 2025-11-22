@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../widgets/app_logo.dart';
-import 'Doctor Card.dart';
-import 'Header.dart';
+import '../../widgets/app_logo.dart';
+import '../../widgets/doctor_card.dart';
+import 'header.dart';
 
 class HomeContent extends StatelessWidget
 { const HomeContent({super.key});

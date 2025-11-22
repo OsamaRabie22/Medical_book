@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project/home/home.dart';
-import 'package:project/login_page/sign_up.dart';
+import 'package:project/screens/home/home_page.dart';
+import 'package:project/screens/auth/signup_page.dart';
 import 'package:project/widgets/custom_input_field.dart';
 
 class LoginPage1 extends StatefulWidget {

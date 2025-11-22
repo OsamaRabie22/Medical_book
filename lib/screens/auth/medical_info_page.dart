@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../home/home.dart';
-import '../widgets/app_logo.dart';
-import '../widgets/custom_input_field.dart';
-import 'sign_up.dart';
+import '../home/home_page.dart';
+import '../../widgets/app_logo.dart';
+import '../../widgets/custom_input_field.dart';
+import 'signup_page.dart';
 
 class MedicalInfoPage extends StatefulWidget {
   final PatientBasicInfo patientData;

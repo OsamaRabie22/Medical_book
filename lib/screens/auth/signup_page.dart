@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../home/home.dart';
-import '../widgets/app_logo.dart';
-import '../widgets/custom_input_field.dart';
+import '../home/home_page.dart';
+import '../../widgets/app_logo.dart';
+import '../../widgets/custom_input_field.dart';
 import 'medical_info_page.dart';
 
 class SignupPage extends StatefulWidget {

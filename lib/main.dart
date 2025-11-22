@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:project/welcomescreen.dart';
+import 'package:project/screens/intro/welcome_screen.dart';
 
 void main() {
   runApp(const MyApp());
