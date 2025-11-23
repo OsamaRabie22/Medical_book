@@ -1,121 +1,94 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project/screens/intro/intro_page1.dart';
-import 'package:project/screens/intro/intro_page2.dart';
-import 'package:project/screens/intro/intro_page3.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import '../auth/login_page.dart';
 import 'package:get/get.dart';
+import '../auth/login_page.dart';
+import 'intro_page1.dart';
+import 'intro_page2.dart';
+import 'intro_page3.dart';  // ✅ مسار منظم
 
-class Welcome extends StatefulWidget {
-  const Welcome({super.key});
+class WelcomeScreen extends StatefulWidget {
+  const WelcomeScreen({super.key});
 
   @override
-  State<Welcome> createState() => _WelcomeState();
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
-class _WelcomeState extends State<Welcome> {
-  final PageController _controller = PageController();
-  bool onLastPage = false;
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  Color get _accentColor => Colors.teal.shade800;
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // صفحات الـ onboarding
-          PageView(
-            controller: _controller,
-            onPageChanged: (index) {
-              setState(() {
-                onLastPage = (index == 2);
-              });
-            },
-            children:  [
-              IntroPage1(),
-              IntroPage2(),
-              IntroPage3(),
-            ],
-          ),
-
-          // شريط التنقّل السفلي
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 50,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // زر Skip
-                  TextButton(
-                    onPressed: () {Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (context) => const LoginPage1(),
-                      ),
-                    );
-                    },
-                    style: TextButton.styleFrom(
-                      foregroundColor: _accentColor,
-                      textStyle: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                    child: const Text("Skip"),
-                  ),
-
-                  // مؤشر الصفحات
-                  SmoothPageIndicator(
-                    controller: _controller,
-                    count: 3,
-                    effect: WormEffect(
-                      dotHeight: 12,
-                      dotWidth: 12,
-                      spacing: 10,
-                      activeDotColor: _accentColor,
-                      dotColor: _accentColor.withOpacity(0.25),
-                    ),
-                  ),
-
-                  // زر Next / Done
-                  TextButton(
-                    onPressed: () {
-                      if (onLastPage) {
-                        Get.off(LoginPage1());
-                      } else {
-                        _controller.nextPage(
-                          duration: const Duration(milliseconds: 400),
-                          curve: Curves.easeInOut,
-                        );
-                      }
-                    },
-                    style: TextButton.styleFrom(
-                      foregroundColor: _accentColor,
-                      textStyle: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                    child: Text(onLastPage ? "Done!" : "Next"),
-                  ),
+      backgroundColor: const Color(0xFFEFF9F8),
+      body: SafeArea(
+        child: Column(
+          children: [
+            // PageView
+            Expanded(
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (int page) {
+                  setState(() {
+                    _currentPage = page; // ✅ setState بسيط
+                  });
+                },
+                children: const [
+                  IntroPage1(),
+                  IntroPage2(),
+                  IntroPage3(),
                 ],
               ),
             ),
-          ),
-        ],
+
+            // Dots Indicator
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(3, (index) {
+                return Container(
+                  margin: const EdgeInsets.all(4),
+                  width: 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _currentPage == index
+                        ? const Color(0xFF128C7E)
+                        : Colors.grey.shade300,
+                  ),
+                );
+              }),
+            ),
+
+            const SizedBox(height: 20),
+
+            // Get Started Button
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Get.off(const LoginPage()); // ✅ GetX للتنقل
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF128C7E),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                    "Get Started",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

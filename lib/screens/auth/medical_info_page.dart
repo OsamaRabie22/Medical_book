@@ -29,7 +29,14 @@ class _MedicalInfoPageState extends State<MedicalInfoPage> {
   bool _isMarried = false;
 
   final List<String> _bloodTypes = [
-    'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'
+    'A+',
+    'A-',
+    'B+',
+    'B-',
+    'AB+',
+    'AB-',
+    'O+',
+    'O-'
   ];
 
   @override
@@ -49,8 +56,6 @@ class _MedicalInfoPageState extends State<MedicalInfoPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ✅ زر Skip صغير في الأعلى
-
             SizedBox(height: 15 * scale),
             const Center(child: AppLogo()),
             SizedBox(height: 10 * scale),
@@ -86,87 +91,139 @@ class _MedicalInfoPageState extends State<MedicalInfoPage> {
             ),
             SizedBox(height: 16 * scale),
 
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.teal.withOpacity(0.05),
-                borderRadius: BorderRadius.circular(18 * scale),
-                border: Border.all(
-                  color: Colors.teal.withOpacity(0.3),
+            // ✅ Blood Type - بدون Container إضافي
+            DropdownButtonFormField<String>(
+              value: _selectedBloodType,
+              decoration: InputDecoration(
+                filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(18 * scale),
+                  borderSide: BorderSide(
+                    color: Colors.teal.withOpacity(0.3),
+                    width: 1 * scale,
+                  ),
                 ),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 16 * scale),
-              child: DropdownButtonFormField<String>(
-                value: _selectedBloodType,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  prefixIcon: Icon(
-                    Icons.bloodtype_outlined,
-                    size: 20 * scale,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(18 * scale),
+                  borderSide: BorderSide(
+                    color: Colors.teal.withOpacity(0.3),
+                    width: 1 * scale,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(18 * scale),
+                  borderSide: BorderSide(
                     color: Colors.teal.shade700,
-                  ),
-                  hintText: "Blood Type",
-                  hintStyle: TextStyle(
-                    fontSize: 14 * scale,
-                    color: Colors.grey.shade500,
+                    width: 1.5 * scale,
                   ),
                 ),
-                items: _bloodTypes
-                    .map((bloodType) => DropdownMenuItem(
-                  value: bloodType,
-                  child: Text(
-                    bloodType,
-                    style: TextStyle(fontSize: 14 * scale),
-                  ),
-                ))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedBloodType = value;
-                  });
-                },
+                prefixIcon: Icon(
+                  Icons.bloodtype_outlined,
+                  size: 20 * scale,
+                  color: Colors.teal.shade700,
+                ),
+                hintText: "Blood Type",
+                hintStyle: TextStyle(
+                  fontSize: 14 * scale,
+                  color: Colors.grey.shade500,
+                ),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 16 * scale,
+                  vertical: 16 * scale,
+                ),
               ),
+              icon: Icon(
+                Icons.arrow_drop_down,
+                size: 24 * scale,
+                color: Colors.teal.shade700,
+              ),
+              dropdownColor: Colors.white,
+              style: TextStyle(
+                fontSize: 16 * scale,
+                color: Colors.teal.shade800,
+              ),
+              items: _bloodTypes
+                  .map((bloodType) => DropdownMenuItem(
+                value: bloodType,
+                child: Text(
+                  bloodType,
+                  style: TextStyle(fontSize: 14 * scale),
+                ),
+              ))
+                  .toList(),
+              onChanged: (value) {
+                setState(() {
+                  _selectedBloodType = value;
+                });
+              },
             ),
             SizedBox(height: 16 * scale),
 
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.teal.withOpacity(0.05),
-                borderRadius: BorderRadius.circular(18 * scale),
-                border: Border.all(
-                  color: Colors.teal.withOpacity(0.3),
+            // ✅ Residence Type - بدون Container إضافي
+            DropdownButtonFormField<String>(
+              value: _selectedResidenceType,
+              decoration: InputDecoration(
+                filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(18 * scale),
+                  borderSide: BorderSide(
+                    color: Colors.teal.withOpacity(0.3),
+                    width: 1 * scale,
+                  ),
                 ),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 16 * scale),
-              child: DropdownButtonFormField<String>(
-                value: _selectedResidenceType,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  prefixIcon: Icon(
-                    Icons.home_outlined,
-                    size: 20 * scale,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(18 * scale),
+                  borderSide: BorderSide(
+                    color: Colors.teal.withOpacity(0.3),
+                    width: 1 * scale,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(18 * scale),
+                  borderSide: BorderSide(
                     color: Colors.teal.shade700,
-                  ),
-                  hintText: "Residence Type",
-                  hintStyle: TextStyle(
-                    fontSize: 14 * scale,
-                    color: Colors.grey.shade500,
+                    width: 1.5 * scale,
                   ),
                 ),
-                items: ['Urban', 'Rural']
-                    .map((type) => DropdownMenuItem(
-                  value: type,
-                  child: Text(
-                    type,
-                    style: TextStyle(fontSize: 14 * scale),
-                  ),
-                ))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedResidenceType = value;
-                  });
-                },
+                prefixIcon: Icon(
+                  Icons.home_outlined,
+                  size: 20 * scale,
+                  color: Colors.teal.shade700,
+                ),
+                hintText: "Residence Type",
+                hintStyle: TextStyle(
+                  fontSize: 14 * scale,
+                  color: Colors.grey.shade500,
+                ),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 16 * scale,
+                  vertical: 16 * scale,
+                ),
               ),
+              icon: Icon(
+                Icons.arrow_drop_down,
+                size: 24 * scale,
+                color: Colors.teal.shade700,
+              ),
+              dropdownColor: Colors.white,
+              style: TextStyle(
+                fontSize: 16 * scale,
+                color: Colors.teal.shade800,
+              ),
+              items: ['Urban', 'Rural']
+                  .map((type) => DropdownMenuItem(
+                value: type,
+                child: Text(
+                  type,
+                  style: TextStyle(fontSize: 14 * scale),
+                ),
+              ))
+                  .toList(),
+              onChanged: (value) {
+                setState(() {
+                  _selectedResidenceType = value;
+                });
+              },
             ),
 
             SizedBox(height: 25 * scale),
@@ -182,22 +239,13 @@ class _MedicalInfoPageState extends State<MedicalInfoPage> {
             ),
             SizedBox(height: 16 * scale),
 
-            SwitchListTile(
-              title: Text(
-                "Married",
-                style: TextStyle(fontSize: 14 * scale),
-              ),
-              value: _isMarried,
-              onChanged: (value) {
-                setState(() {
-                  _isMarried = value;
-                });
-              },
-              activeColor: Colors.teal.shade700,
-              secondary: Icon(
-                Icons.family_restroom_outlined,
-                color: Colors.teal.shade700,
-              ),
+            // ✅ الحالة الاجتماعية (Married)
+            _buildConditionSwitch(
+              "Married",
+              _isMarried,
+              Icons.family_restroom_outlined,
+                  (value) => setState(() => _isMarried = value),
+              scale,
             ),
 
             SizedBox(height: 25 * scale),

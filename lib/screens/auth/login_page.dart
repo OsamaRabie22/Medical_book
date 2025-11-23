@@ -1,46 +1,39 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:project/screens/home/home_page.dart';
 import 'package:project/screens/auth/signup_page.dart';
-import 'package:project/widgets/custom_input_field.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_styles.dart';
+import '../../../core/utils/responsive_utils.dart';
+import '../../../widgets/custom_input_field.dart';
+import '../home/home_page.dart';
 
-class LoginPage1 extends StatefulWidget {
-  const LoginPage1({super.key});
+
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<LoginPage1> createState() => _LoginPage1State();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPage1State extends State<LoginPage1> {
+class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
   void _login() {
-    Get.to(const HomePage());
+    // TODO: Add actual authentication logic
+    Get.offAll(const HomePage()); // ✅ GetX للتنقل
   }
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
-    // مقاسات التصميم الأصلية (iPhone 14 Pro Max)
-    const baseWidth = 430.0;
-    const baseHeight = 932.0;
-
-    // نسب التناسب
-    final w = screenWidth / baseWidth;
-    final h = screenHeight / baseHeight;
-    final scale = min(w, h);
+    final scale = ResponsiveUtils.getScale(context);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(
-          horizontal: 28 * w,
-          vertical: 40 * h,
+          horizontal: 28 * scale,
+          vertical: 40 * scale,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,39 +41,31 @@ class _LoginPage1State extends State<LoginPage1> {
             // ✅ اللوجو
             RichText(
               text: TextSpan(
-                style: TextStyle(
+                style: AppTextStyles.headlineLarge.copyWith(
                   fontSize: 32 * scale,
-                  fontWeight: FontWeight.bold,
                 ),
                 children: [
                   const TextSpan(
                     text: "Medical ",
-                    style: TextStyle(color: Colors.black),
+                    style: TextStyle(color: AppColors.black),
                   ),
                   TextSpan(
                     text: "Book",
-                    style: TextStyle(color: Colors.teal.shade700),
+                    style: TextStyle(color: AppColors.primary),
                   ),
                 ],
               ),
             ),
 
-            SizedBox(height: 20 * h),
+            SizedBox(height: 20 * scale),
 
             // ✅ الصورة
             Container(
-              height: 200 * h,
-              width: 200 * w,
+              height: 220 * scale,
+              width: 220 * scale,
               decoration: BoxDecoration(
-                color: Colors.teal.shade50,
+                color: AppColors.primary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(25 * scale),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.teal.withOpacity(0.1),
-                    blurRadius: 10 * scale,
-                    offset: Offset(0, 4 * scale),
-                  ),
-                ],
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(25 * scale),
@@ -91,38 +76,37 @@ class _LoginPage1State extends State<LoginPage1> {
               ),
             ),
 
-            SizedBox(height: 30 * h),
+            SizedBox(height: 30 * scale),
 
             // ✅ الترحيب
             Text(
               "Welcome Back 👋",
-              style: TextStyle(
+              style: AppTextStyles.headlineMedium.copyWith(
                 fontSize: 26 * scale,
-                fontWeight: FontWeight.w600,
-                color: Colors.teal.shade900,
+                color: AppColors.primaryDark,
               ),
             ),
-            SizedBox(height: 8 * h),
+            SizedBox(height: 8 * scale),
             Text(
               "Stay connected to your health records\nlogin to continue",
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: AppTextStyles.bodyMedium.copyWith(
                 fontSize: 16 * scale,
-                color: Colors.grey.shade600,
+                color: AppColors.greyDark,
                 height: 1.4,
               ),
             ),
 
-            SizedBox(height: 40 * h),
+            SizedBox(height: 40 * scale),
 
             // ✅ حقول الإدخال
             CustomInputField(
               controller: _usernameController,
               hint: "Username",
               icon: Icons.person_outline,
-              scale: scale, // ✅ نمرر الـ scale للـ custom widget
+              scale: scale,
             ),
-            SizedBox(height: 16 * h),
+            SizedBox(height: 16 * scale),
             CustomInputField(
               controller: _passwordController,
               hint: "Password",
@@ -131,25 +115,31 @@ class _LoginPage1State extends State<LoginPage1> {
               scale: scale,
             ),
 
-            SizedBox(height: 10 * h),
+            SizedBox(height: 10 * scale),
 
             // ✅ نسيت كلمة المرور
             Align(
               alignment: Alignment.centerRight,
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.snackbar(
+                    'Forgot Password',
+                    'Feature coming soon!',
+                    backgroundColor: AppColors.info.withOpacity(0.1),
+                    colorText: AppColors.info,
+                  );
+                },
                 child: Text(
                   "Forgot password?",
-                  style: TextStyle(
-                    fontSize: 14 * scale,
-                    color: Colors.teal.shade700,
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: AppColors.primary,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
             ),
 
-            SizedBox(height: 30 * h),
+            SizedBox(height: 30 * scale),
 
             // ✅ زر تسجيل الدخول
             SizedBox(
@@ -157,26 +147,24 @@ class _LoginPage1State extends State<LoginPage1> {
               child: ElevatedButton(
                 onPressed: _login,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.teal.shade700,
-                  foregroundColor: Colors.white,
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: AppColors.white,
+                  padding: EdgeInsets.symmetric(vertical: 16 * scale),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14 * scale),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 16 * h),
-                  elevation: 4 * scale,
-                  shadowColor: Colors.teal.withOpacity(0.3),
+                  elevation: 4,
                 ),
                 child: Text(
                   "Login",
-                  style: TextStyle(
+                  style: AppTextStyles.buttonMedium.copyWith(
                     fontSize: 18 * scale,
-                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
             ),
 
-            SizedBox(height: 60 * h),
+            SizedBox(height: 35 * scale),
 
             // ✅ إنشاء حساب جديد
             Row(
@@ -184,20 +172,18 @@ class _LoginPage1State extends State<LoginPage1> {
               children: [
                 Text(
                   "Don't have an account? ",
-                  style: TextStyle(
-                    fontSize: 14 * scale,
-                    color: Colors.grey.shade600,
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: AppColors.greyDark,
                   ),
                 ),
                 TextButton(
                   onPressed: () {
-                    Get.to(const SignupPage());
+                    Get.to(const SignupPage()); // ✅ GetX للتنقل
                   },
                   child: Text(
                     "Sign Up",
-                    style: TextStyle(
-                      fontSize: 14 * scale,
-                      color: Colors.teal.shade700,
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.primary,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -208,5 +194,12 @@ class _LoginPage1State extends State<LoginPage1> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }
