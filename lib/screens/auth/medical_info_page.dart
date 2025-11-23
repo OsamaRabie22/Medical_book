@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../core/constants/app_colors.dart';
 import '../home/home_page.dart';
 import '../../widgets/app_logo.dart';
 import '../../widgets/custom_input_field.dart';
@@ -23,6 +24,7 @@ class _MedicalInfoPageState extends State<MedicalInfoPage> {
 
   String? _selectedBloodType;
   String? _selectedResidenceType;
+  String? _selectedCity;
   bool _hasHypertension = false;
   bool _hasDiabetes = false;
   bool _hasAnemia = false;
@@ -37,6 +39,36 @@ class _MedicalInfoPageState extends State<MedicalInfoPage> {
     'AB-',
     'O+',
     'O-'
+  ];
+
+  final List<String> _egyptGovernorates = [
+    'Cairo',
+    'Alexandria',
+    'Port Said',
+    'Suez',
+    'Damietta',
+    'Dakahlia',
+    'Sharqia',
+    'Qalyubia',
+    'Kafr El Sheikh',
+    'Gharbia',
+    'Monufia',
+    'Beheira',
+    'Ismailia',
+    'Giza',
+    'Beni Suef',
+    'Faiyum',
+    'Minya',
+    'Asyut',
+    'Sohag',
+    'Qena',
+    'Aswan',
+    'Luxor',
+    'Red Sea',
+    'New Valley',
+    'Matrouh',
+    'North Sinai',
+    'South Sinai'
   ];
 
   @override
@@ -66,7 +98,7 @@ class _MedicalInfoPageState extends State<MedicalInfoPage> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14 * scale,
-                  color: Colors.grey.shade600,
+                  color: AppColors.greyDark,
                 ),
               ),
             ),
@@ -78,152 +110,170 @@ class _MedicalInfoPageState extends State<MedicalInfoPage> {
               style: TextStyle(
                 fontSize: 16 * scale,
                 fontWeight: FontWeight.w600,
-                color: Colors.teal.shade800,
+                color: AppColors.primaryDark,
               ),
             ),
             SizedBox(height: 16 * scale),
 
-            CustomInputField(
-              controller: _cityController,
-              hint: "City",
-              icon: Icons.location_city_outlined,
-              scale: scale,
-            ),
-            SizedBox(height: 16 * scale),
-
-            // ✅ Blood Type - بدون Container إضافي
-            DropdownButtonFormField<String>(
-              value: _selectedBloodType,
-              decoration: InputDecoration(
-                filled: true,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(18 * scale),
-                  borderSide: BorderSide(
-                    color: Colors.teal.withOpacity(0.3),
-                    width: 1 * scale,
-                  ),
+            // ✅ City - Dropdown بدلاً من TextField
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.primary.withOpacity(0.05),
+                borderRadius: BorderRadius.circular(18 * scale),
+                border: Border.all(
+                  color: AppColors.primary.withOpacity(0.3),
+                  width: 1 * scale,
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(18 * scale),
-                  borderSide: BorderSide(
-                    color: Colors.teal.withOpacity(0.3),
-                    width: 1 * scale,
+              ),
+              child: DropdownButtonFormField<String>(
+                value: _selectedCity,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  prefixIcon: Icon(
+                    Icons.location_city_outlined,
+                    size: 20 * scale,
+                    color: AppColors.primary,
                   ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(18 * scale),
-                  borderSide: BorderSide(
-                    color: Colors.teal.shade700,
-                    width: 1.5 * scale,
+                  hintText: "City",
+                  hintStyle: TextStyle(
+                    fontSize: 14 * scale,
+                    color: AppColors.grey,
                   ),
+                  contentPadding: EdgeInsets.all(16 * scale),
                 ),
-                prefixIcon: Icon(
-                  Icons.bloodtype_outlined,
+                icon: Icon(
+                  Icons.arrow_drop_down,
                   size: 20 * scale,
-                  color: Colors.teal.shade700,
+                  color: AppColors.grey,
                 ),
-                hintText: "Blood Type",
-                hintStyle: TextStyle(
-                  fontSize: 14 * scale,
-                  color: Colors.grey.shade500,
+                dropdownColor: Colors.white,
+                style: TextStyle(
+                  fontSize: 16 * scale,
+                  color: AppColors.primaryDark,
                 ),
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 16 * scale,
-                  vertical: 16 * scale,
-                ),
+                items: _egyptGovernorates
+                    .map((governorate) => DropdownMenuItem(
+                  value: governorate,
+                  child: Text(
+                    governorate,
+                    style: TextStyle(fontSize: 14 * scale),
+                  ),
+                ))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedCity = value;
+                  });
+                },
               ),
-              icon: Icon(
-                Icons.arrow_drop_down,
-                size: 24 * scale,
-                color: Colors.teal.shade700,
-              ),
-              dropdownColor: Colors.white,
-              style: TextStyle(
-                fontSize: 16 * scale,
-                color: Colors.teal.shade800,
-              ),
-              items: _bloodTypes
-                  .map((bloodType) => DropdownMenuItem(
-                value: bloodType,
-                child: Text(
-                  bloodType,
-                  style: TextStyle(fontSize: 14 * scale),
-                ),
-              ))
-                  .toList(),
-              onChanged: (value) {
-                setState(() {
-                  _selectedBloodType = value;
-                });
-              },
             ),
             SizedBox(height: 16 * scale),
 
-            // ✅ Residence Type - بدون Container إضافي
-            DropdownButtonFormField<String>(
-              value: _selectedResidenceType,
-              decoration: InputDecoration(
-                filled: true,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(18 * scale),
-                  borderSide: BorderSide(
-                    color: Colors.teal.withOpacity(0.3),
-                    width: 1 * scale,
-                  ),
+            // ✅ Blood Type
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.primary.withOpacity(0.05),
+                borderRadius: BorderRadius.circular(18 * scale),
+                border: Border.all(
+                  color: AppColors.primary.withOpacity(0.3),
+                  width: 1 * scale,
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(18 * scale),
-                  borderSide: BorderSide(
-                    color: Colors.teal.withOpacity(0.3),
-                    width: 1 * scale,
+              ),
+              child: DropdownButtonFormField<String>(
+                value: _selectedBloodType,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  prefixIcon: Icon(
+                    Icons.bloodtype_outlined,
+                    size: 20 * scale,
+                    color: AppColors.primary,
                   ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(18 * scale),
-                  borderSide: BorderSide(
-                    color: Colors.teal.shade700,
-                    width: 1.5 * scale,
+                  hintText: "Blood Type",
+                  hintStyle: TextStyle(
+                    fontSize: 14 * scale,
+                    color: AppColors.grey,
                   ),
+                  contentPadding: EdgeInsets.all(16 * scale),
                 ),
-                prefixIcon: Icon(
-                  Icons.home_outlined,
+                icon: Icon(
+                  Icons.arrow_drop_down,
                   size: 20 * scale,
-                  color: Colors.teal.shade700,
+                  color: AppColors.grey,
                 ),
-                hintText: "Residence Type",
-                hintStyle: TextStyle(
-                  fontSize: 14 * scale,
-                  color: Colors.grey.shade500,
+                dropdownColor: Colors.white,
+                style: TextStyle(
+                  fontSize: 16 * scale,
+                  color: AppColors.primaryDark,
                 ),
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 16 * scale,
-                  vertical: 16 * scale,
+                items: _bloodTypes
+                    .map((bloodType) => DropdownMenuItem(
+                  value: bloodType,
+                  child: Text(
+                    bloodType,
+                    style: TextStyle(fontSize: 14 * scale),
+                  ),
+                ))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedBloodType = value;
+                  });
+                },
+              ),
+            ),
+            SizedBox(height: 16 * scale),
+
+            // ✅ Residence Type
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.primary.withOpacity(0.05),
+                borderRadius: BorderRadius.circular(18 * scale),
+                border: Border.all(
+                  color: AppColors.primary.withOpacity(0.3),
+                  width: 1 * scale,
                 ),
               ),
-              icon: Icon(
-                Icons.arrow_drop_down,
-                size: 24 * scale,
-                color: Colors.teal.shade700,
-              ),
-              dropdownColor: Colors.white,
-              style: TextStyle(
-                fontSize: 16 * scale,
-                color: Colors.teal.shade800,
-              ),
-              items: ['Urban', 'Rural']
-                  .map((type) => DropdownMenuItem(
-                value: type,
-                child: Text(
-                  type,
-                  style: TextStyle(fontSize: 14 * scale),
+              child: DropdownButtonFormField<String>(
+                value: _selectedResidenceType,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  prefixIcon: Icon(
+                    Icons.home_outlined,
+                    size: 20 * scale,
+                    color: AppColors.primary,
+                  ),
+                  hintText: "Residence Type",
+                  hintStyle: TextStyle(
+                    fontSize: 14 * scale,
+                    color: AppColors.grey,
+                  ),
+                  contentPadding: EdgeInsets.all(16 * scale),
                 ),
-              ))
-                  .toList(),
-              onChanged: (value) {
-                setState(() {
-                  _selectedResidenceType = value;
-                });
-              },
+                icon: Icon(
+                  Icons.arrow_drop_down,
+                  size: 20 * scale,
+                  color: AppColors.grey,
+                ),
+                dropdownColor: Colors.white,
+                style: TextStyle(
+                  fontSize: 16 * scale,
+                  color: AppColors.primaryDark,
+                ),
+                items: ['Urban', 'Rural']
+                    .map((type) => DropdownMenuItem(
+                  value: type,
+                  child: Text(
+                    type,
+                    style: TextStyle(fontSize: 14 * scale),
+                  ),
+                ))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedResidenceType = value;
+                  });
+                },
+              ),
             ),
 
             SizedBox(height: 25 * scale),
@@ -234,7 +284,7 @@ class _MedicalInfoPageState extends State<MedicalInfoPage> {
               style: TextStyle(
                 fontSize: 16 * scale,
                 fontWeight: FontWeight.w600,
-                color: Colors.teal.shade800,
+                color: AppColors.primaryDark,
               ),
             ),
             SizedBox(height: 16 * scale),
@@ -256,7 +306,7 @@ class _MedicalInfoPageState extends State<MedicalInfoPage> {
               style: TextStyle(
                 fontSize: 16 * scale,
                 fontWeight: FontWeight.w600,
-                color: Colors.teal.shade800,
+                color: AppColors.primaryDark,
               ),
             ),
             SizedBox(height: 16 * scale),
@@ -293,7 +343,7 @@ class _MedicalInfoPageState extends State<MedicalInfoPage> {
               style: TextStyle(
                 fontSize: 16 * scale,
                 fontWeight: FontWeight.w600,
-                color: Colors.teal.shade800,
+                color: AppColors.primaryDark,
               ),
             ),
             SizedBox(height: 12 * scale),
@@ -330,7 +380,7 @@ class _MedicalInfoPageState extends State<MedicalInfoPage> {
                   Get.to(const HomePage());
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.teal.shade700,
+                  backgroundColor: AppColors.primary,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14 * scale),
@@ -371,13 +421,12 @@ class _MedicalInfoPageState extends State<MedicalInfoPage> {
         ),
         value: value,
         onChanged: onChanged,
-        activeColor: Colors.teal.shade700,
-        activeTrackColor: Colors.teal.shade300,
-        inactiveThumbColor: Colors.grey.shade400,
-        inactiveTrackColor: Colors.grey.shade300,
+
+        inactiveThumbColor: AppColors.greyLight,
+        inactiveTrackColor: AppColors.grey,
         secondary: Icon(
           icon,
-          color: Colors.teal.shade700,
+          color: AppColors.primary,
           size: 20 * scale,
         ),
       ),
@@ -389,7 +438,7 @@ class _MedicalInfoPageState extends State<MedicalInfoPage> {
     final patientFullData = {
       'basic_info': widget.patientData,
       'medical_info': {
-        'city': _cityController.text,
+        'city': _selectedCity,
         'blood_type': _selectedBloodType,
         'residence_type': _selectedResidenceType,
         'height': _heightController.text,
@@ -409,8 +458,8 @@ class _MedicalInfoPageState extends State<MedicalInfoPage> {
     Get.snackbar(
       'Registration Complete!',
       'Welcome ${widget.patientData.name}',
-      backgroundColor: Colors.green.shade100,
-      colorText: Colors.green.shade900,
+      backgroundColor: AppColors.success.withOpacity(0.2),
+      colorText: AppColors.success,
     );
 
     // التوجيه للصفحة الرئيسية بعد ثانيتين
