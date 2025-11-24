@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../widgets/app_logo.dart';
 import 'bottom_navigation.dart';
 import 'home_content.dart';
 

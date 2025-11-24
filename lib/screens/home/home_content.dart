@@ -1,56 +1,49 @@
 import 'package:flutter/material.dart';
+import '../../core/utils/responsive_utils.dart';
+import '../../core/constants/app_colors.dart';
+import '../../core/constants/app_styles.dart';
 import '../../widgets/app_logo.dart';
 import '../../widgets/doctor_card.dart';
+import 'booking_page.dart';
 import 'header.dart';
 
-class HomeContent extends StatelessWidget
-{ const HomeContent({super.key});
+class HomeContent extends StatelessWidget {
+  const HomeContent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final scale = ResponsiveUtils.getScale(context);
+    final isTablet = ResponsiveUtils.isTablet(context);
 
     return SafeArea(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        padding: EdgeInsets.symmetric(
+          horizontal: isTablet ? 24 * scale : 20 * scale,
+          vertical: isTablet ? 12 * scale : 8 * scale,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             // ✅ اللوجو
             const Center(child: AppLogo()),
 
-            // ✅ Header (رجعناه)
-            buildHeader(),
-            const SizedBox(height: 25),
-            // ✅ Search Bar
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(18),
-              ),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: "Search for a doctor or specialty",
-                  border: InputBorder.none,
-                  icon: Icon(Icons.search, color: Colors.teal.shade700),
-                ),
-              ),
-            ),
+            // ✅ Header
+            buildHeader(context),
+            SizedBox(height: isTablet ? 30 * scale : 25 * scale),
 
-            const SizedBox(height: 30),
+            // ✅ إزالة الـ Search Bar من هنا
+
+            SizedBox(height: isTablet ? 35 * scale : 30 * scale),
 
             // ✅ Section Title
             Text(
               "Top Doctors",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                color: Colors.teal.shade800,
+              style: AppTextStyles.headlineSmall.copyWith(
+                color: AppColors.primaryDark,
+                fontSize: isTablet ? 22 * scale : 20 * scale,
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: isTablet ? 25 * scale : 20 * scale),
 
             // ✅ Doctor Cards
             DoctorCard(
@@ -59,45 +52,44 @@ class HomeContent extends StatelessWidget
               location: "Cairo – Maadi",
               rating: 4.9,
               image: "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
+              onBookPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BookingPage(
+                      doctorName: "Dr. Ahmed Hassan",
+                      specialty: "Cardiologist",
+                      doctorImage: "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
+                    ),
+                  ),
+                );
+              },
             ),
-            const SizedBox(height: 18),
+            SizedBox(height: isTablet ? 20 * scale : 18 * scale),
             DoctorCard(
               name: "Dr. Sara Mohamed",
               specialty: "Dermatologist",
               location: "Cairo – Nasr City",
               rating: 4.8,
               image: "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
-            ),
-            const SizedBox(height: 18),
-            DoctorCard(
-              name: "Dr. Ahmed Hassan",
-              specialty: "Cardiologist",
-              location: "Cairo – Maadi",
-              rating: 4.9,
-              image: "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
-            ),
-            const SizedBox(height: 18),
-            DoctorCard(
-              name: "Dr. Ahmed Hassan",
-              specialty: "Cardiologist",
-              location: "Cairo – Maadi",
-              rating: 4.9,
-              image: "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
-            ),
-            const SizedBox(height: 18),
-            DoctorCard(
-              name: "Dr. Ahmed Hassan",
-              specialty: "Cardiologist",
-              location: "Cairo – Maadi",
-              rating: 4.9,
-              image: "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
+              onBookPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BookingPage(
+                      doctorName: "Dr. Sara Mohamed",
+                      specialty: "Dermatologist",
+                      doctorImage: "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
+                    ),
+                  ),
+                );
+              },
             ),
 
-            const SizedBox(height: 25),
+            SizedBox(height: isTablet ? 30 * scale : 25 * scale),
           ],
         ),
       ),
     );
   }
-
 }
