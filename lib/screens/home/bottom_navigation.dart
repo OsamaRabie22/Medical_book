@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_styles.dart';
 import '../../core/utils/responsive_utils.dart';
-import '../../widgets/doctor_card.dart';
 import 'booking_page.dart';
+import 'doctor_card.dart';
 
 class DoctorsPage extends StatefulWidget {
   const DoctorsPage({super.key});
@@ -66,7 +66,7 @@ class _DoctorsPageState extends State<DoctorsPage> {
     final scale = ResponsiveUtils.getScale(context);
     final isTablet = ResponsiveUtils.isTablet(context);
 
-    return Scaffold( // ← لازم يكون في Scaffold
+    return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
         title: Text(
@@ -141,7 +141,7 @@ class _DoctorsPageState extends State<DoctorsPage> {
                     location: doctor['location'],
                     rating: doctor['rating'],
                     image: doctor['image'],
-                    onBookPressed: () {
+                    onTap: () { // ✅ غيرنا من onBookPressed إلى onTap
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -164,14 +164,14 @@ class _DoctorsPageState extends State<DoctorsPage> {
   }
 }
 
-// باقي الـ pages بردو لازم يكون في Scaffold
+// باقي الـ pages
 class AppointmentsPage extends StatelessWidget {
   const AppointmentsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final scale = ResponsiveUtils.getScale(context);
-    return Scaffold( // ← مهم
+    return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
         title: Text(
@@ -201,7 +201,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scale = ResponsiveUtils.getScale(context);
-    return Scaffold( // ← مهم
+    return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
         title: Text(
