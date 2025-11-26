@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/screens/home/search_page.dart';
 import '../../core/utils/responsive_utils.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_styles.dart';
@@ -79,14 +80,23 @@ class TopDoctorsSection extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
-                "See All",
-                style: AppTextStyles.bodyMedium.copyWith(
-                  color: AppColors.primary,
-                  fontSize: isTablet ? 16 * scale : 14 * scale,
-                  fontWeight: FontWeight.w600,
+              // في جزء الـ See All
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SearchPage()),
+                  );
+                },
+                child: Text(
+                  "See All",
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: AppColors.primary,
+                    fontSize: isTablet ? 16 * scale : 14 * scale,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
+              )
             ],
           ),
 
