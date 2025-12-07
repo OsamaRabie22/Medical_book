@@ -188,7 +188,7 @@ class _BookingPageState extends State<BookingPage> {
                                   style: TextStyle(
                                     color: AppColors.primaryDark,
                                     fontSize:
-                                        isTablet ? 14 * scale : 12 * scale,
+                                    isTablet ? 14 * scale : 12 * scale,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -551,7 +551,7 @@ class _BookingPageState extends State<BookingPage> {
                     borderRadius: BorderRadius.circular(12 * scale),
                     border: Border.all(
                       color:
-                          isSelected ? AppColors.primary : AppColors.greyLight,
+                      isSelected ? AppColors.primary : AppColors.greyLight,
                       width: 1.5,
                     ),
                   ),
@@ -561,7 +561,7 @@ class _BookingPageState extends State<BookingPage> {
                       fontSize: isTablet ? 16 * scale : 14 * scale,
                       fontWeight: FontWeight.w600,
                       color:
-                          isSelected ? AppColors.white : AppColors.primaryDark,
+                      isSelected ? AppColors.white : AppColors.primaryDark,
                     ),
                   ),
                 ),
@@ -757,8 +757,8 @@ class _BookingPageState extends State<BookingPage> {
         ),
         content: Text(
           "You are about to book an appointment with ${widget.doctorName} "
-          "on ${selectedDateText ?? selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year} "
-          "at ${selectedTimeSlot} for EGP ${widget.consultationFee.toStringAsFixed(0)}",
+              "on ${selectedDateText ?? selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year} "
+              "at ${selectedTimeSlot} for EGP ${widget.consultationFee.toStringAsFixed(0)}",
           style: AppTextStyles.bodyMedium,
         ),
         actions: [
