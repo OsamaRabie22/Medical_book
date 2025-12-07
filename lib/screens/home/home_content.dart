@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/screens/home/home_page.dart'; // إضف هذا الـ import
 import '../../core/utils/responsive_utils.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_styles.dart';
@@ -10,6 +11,16 @@ import 'top_doctors_section.dart';
 
 class HomeContent extends StatelessWidget {
   const HomeContent({super.key});
+
+  void _navigateToSearchPage(BuildContext context) {
+    // إستبدل الشاشة الحالية بـ HomePage مع index 1 (Search)
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomePage(initialIndex: 1),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,33 +66,37 @@ class HomeContent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Search Bar
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16 * scale),
-                    decoration: BoxDecoration(
-                      color: AppColors.scaffoldBackground,
-                      borderRadius: BorderRadius.circular(15 * scale),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.search,
-                          color: AppColors.primary,
-                          size: isTablet ? 26 * scale : 22 * scale,
-                        ),
-                        SizedBox(width: 12 * scale),
-                        Expanded(
-                          child: TextField(
-                            decoration: InputDecoration(
-                              hintText: "Search for doctors, specialties...",
-                              border: InputBorder.none,
-                              hintStyle: AppTextStyles.bodyMedium.copyWith(
-                                color: AppColors.grey,
-                                fontSize: isTablet ? 16 * scale : 14 * scale,
+                  GestureDetector(
+                    onTap: () => _navigateToSearchPage(context),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16 * scale),
+                      decoration: BoxDecoration(
+                        color: AppColors.scaffoldBackground,
+                        borderRadius: BorderRadius.circular(15 * scale),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.search,
+                            color: AppColors.primary,
+                            size: isTablet ? 26 * scale : 22 * scale,
+                          ),
+                          SizedBox(width: 12 * scale),
+                          Expanded(
+                            child: TextField(
+                              enabled: false,
+                              decoration: InputDecoration(
+                                hintText: "Search for doctors, specialties...",
+                                border: InputBorder.none,
+                                hintStyle: AppTextStyles.bodyMedium.copyWith(
+                                  color: AppColors.grey,
+                                  fontSize: isTablet ? 16 * scale : 14 * scale,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
 

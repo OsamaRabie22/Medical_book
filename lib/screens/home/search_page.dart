@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_styles.dart';
 import '../../core/utils/responsive_utils.dart';
-import 'booking_page.dart';
-import 'doctor_card.dart';
+import 'specialty_doctors_page.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -14,116 +14,6 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   TextEditingController searchController = TextEditingController();
-  String? selectedSpecialty;
-
-  final Map<String, List<String>> specialties = {
-    'Most Searched': [
-      'Dermatology',
-      'Dentist',
-      'Psychiatry',
-    ],
-    'Pediatrics & Newborn': [
-      'Pediatrics',
-      'Newborn Care',
-      'Vaccination',
-    ],
-    'Women Health': [
-      'Obstetrics',
-      'Gynecology',
-      'Fertility',
-    ],
-    'Surgery': [
-      'Orthopedics',
-      'General Surgery',
-      'Plastic Surgery',
-    ],
-    'ENT': [
-      'Ear, Nose & Throat',
-    ],
-    'Internal Medicine': [
-      'Cardiology',
-      'Diabetes',
-      'Gastroenterology',
-    ],
-  };
-
-  List<Map<String, dynamic>> allDoctors = [
-    {
-      'name': "Dr. Ahmed Hassan",
-      'specialty': "Cardiologist",
-      'location': "Cairo – Maadi",
-      'rating': 4.9,
-      'image': "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
-    },
-    {
-      'name': "Dr. Sara Mohamed",
-      'specialty': "Dermatologist",
-      'location': "Cairo – Nasr City",
-      'rating': 4.8,
-      'image': "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
-    },
-    {
-      'name': "Dr. Mahmoud Ali",
-      'specialty': "Pediatrician",
-      'location': "Giza – Dokki",
-      'rating': 4.7,
-      'image': "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
-    },
-    {
-      'name': "Dr. Mona Samy",
-      'specialty': "Dentist",
-      'location': "Cairo – Heliopolis",
-      'rating': 4.9,
-      'image': "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
-    },
-    {
-      'name': "Dr. Khaled Omar",
-      'specialty': "Surgeon",
-      'location': "Alexandria",
-      'rating': 4.6,
-      'image': "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
-    },
-  ];
-
-  List<Map<String, dynamic>> filteredDoctors = [];
-
-  @override
-  void initState() {
-    super.initState();
-    filteredDoctors = List.from(allDoctors);
-  }
-
-  void filterDoctors(String query) {
-    setState(() {
-      if (query.isEmpty) {
-        filteredDoctors = List.from(allDoctors);
-      } else {
-        filteredDoctors = allDoctors.where((doctor) {
-          final name = doctor['name'].toString().toLowerCase();
-          final specialty = doctor['specialty'].toString().toLowerCase();
-          final searchLower = query.toLowerCase();
-          return name.contains(searchLower) || specialty.contains(searchLower);
-        }).toList();
-      }
-    });
-  }
-
-  void filterBySpecialty(String specialty) {
-    setState(() {
-      selectedSpecialty = specialty;
-      filteredDoctors = allDoctors.where((doctor) {
-        return doctor['specialty'].toString().toLowerCase().contains(specialty.toLowerCase());
-      }).toList();
-    });
-  }
-
-  void clearFilters() {
-    setState(() {
-      selectedSpecialty = null;
-      searchController.clear();
-      filteredDoctors = List.from(allDoctors);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,247 +27,360 @@ class _SearchPageState extends State<SearchPage> {
           "Find a Doctor",
           style: AppTextStyles.headlineMedium.copyWith(
             fontSize: 24 * scale,
+            color: AppColors.primaryDark,
           ),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         foregroundColor: AppColors.primaryDark,
-        actions: [
-          if (selectedSpecialty != null || searchController.text.isNotEmpty)
-            IconButton(
-              onPressed: clearFilters,
-              icon: Icon(Icons.clear_all, size: isTablet ? 28 * scale : 24 * scale),
-            ),
-        ],
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context); // بيرجع للصفحة اللي قبلها
+          },
+        ),
       ),
-      body: Column(
-        children: [
-          // Search Bar
-          Padding(
-            padding: EdgeInsets.all(16 * scale),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16 * scale),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16 * scale),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Search Bar - نفس تصميم Vezeeta
+            Container(
+              height: 50 * scale,
               decoration: BoxDecoration(
                 color: AppColors.white,
-                borderRadius: BorderRadius.circular(18 * scale),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 6 * scale,
-                    offset: Offset(0, 2 * scale),
-                  ),
-                ],
-              ),
-              child: TextField(
-                controller: searchController,
-                onChanged: filterDoctors,
-                decoration: InputDecoration(
-                  hintText: "Search by specialty, doctor name, or hospital",
-                  border: InputBorder.none,
-                  icon: Icon(
-                    Icons.search,
-                    color: AppColors.primary,
-                    size: isTablet ? 26 * scale : 22 * scale,
-                  ),
-                  hintStyle: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.grey,
-                    fontSize: isTablet ? 16 * scale : 14 * scale,
-                  ),
+                borderRadius: BorderRadius.circular(12 * scale),
+                border: Border.all(
+                  color: AppColors.greyLight.withOpacity(0.5),
                 ),
               ),
-            ),
-          ),
-
-          // Selected Specialty
-          if (selectedSpecialty != null)
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16 * scale),
               child: Row(
                 children: [
-                  Text(
-                    "Showing results for: ",
-                    style: AppTextStyles.bodyMedium.copyWith(
-                      color: AppColors.grey,
-                    ),
+                  SizedBox(width: 16 * scale),
+                  Icon(
+                    Icons.search,
+                    color: AppColors.grey,
+                    size: 20 * scale,
                   ),
-                  Text(
-                    selectedSpecialty!,
-                    style: AppTextStyles.bodyMedium.copyWith(
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-          Expanded(
-            child: DefaultTabController(
-              length: 2,
-              child: Column(
-                children: [
-                  // Tabs
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16 * scale, vertical: 8 * scale),
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(12 * scale),
-                    ),
-                    child: TabBar(
-                      labelColor: AppColors.primary,
-                      unselectedLabelColor: AppColors.grey,
-                      indicator: BoxDecoration(
-                        color: AppColors.primary.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(10 * scale),
-                      ),
-                      tabs: [
-                        Tab(text: "Specialties"),
-                        Tab(text: "Doctors (${filteredDoctors.length})"),
-                      ],
-                    ),
-                  ),
-
+                  SizedBox(width: 12 * scale),
                   Expanded(
-                    child: TabBarView(
-                      children: [
-                        // Specialties Tab
-                        SingleChildScrollView(
-                          padding: EdgeInsets.all(16 * scale),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              for (var category in specialties.entries)
-                                _buildSpecialtyCategory(
-                                  context,
-                                  category.key,
-                                  category.value,
-                                ),
-                            ],
-                          ),
+                    child: TextField(
+                      controller: searchController,
+                      decoration: InputDecoration(
+                        hintText: "Search by specialty, doctor name, or hospital",
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(
+                          color: AppColors.grey,
+                          fontSize: 14 * scale,
                         ),
-
-                        // Doctors Tab
-                        filteredDoctors.isEmpty
-                            ? Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.search_off,
-                                size: 60 * scale,
-                                color: AppColors.grey,
-                              ),
-                              SizedBox(height: 16 * scale),
-                              Text(
-                                "No doctors found",
-                                style: AppTextStyles.headlineSmall.copyWith(
-                                  color: AppColors.grey,
-                                ),
-                              ),
-                              SizedBox(height: 8 * scale),
-                              Text(
-                                "Try a different search or specialty",
-                                style: AppTextStyles.bodyMedium.copyWith(
-                                  color: AppColors.grey,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                            : ListView.builder(
-                          padding: EdgeInsets.all(16 * scale),
-                          itemCount: filteredDoctors.length,
-                          itemBuilder: (context, index) {
-                            final doctor = filteredDoctors[index];
-                            return Padding(
-                              padding: EdgeInsets.only(bottom: 12 * scale),
-                              child: DoctorCard(
-                                name: doctor['name'],
-                                specialty: doctor['specialty'],
-                                location: doctor['location'],
-                                rating: doctor['rating'],
-                                image: doctor['image'],
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => BookingPage(
-                                        doctorName: doctor['name'],
-                                        specialty: doctor['specialty'],
-                                        doctorImage: doctor['image'],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-          ),
-        ],
+
+            SizedBox(height: 32 * scale),
+
+            // Most Searched Specialties - بنفس تنسيق Vezeeta
+            _buildSectionTitle("Most Searched Specialties"),
+            SizedBox(height: 16 * scale),
+            _buildSpecialtyRow(
+              context,
+              [
+                _buildSpecialtyItem(
+                  context,
+                  "Dermatology",
+                  LineIcons.heartbeat,
+                ),
+                _buildSpecialtyItem(
+                  context,
+                  "Dentist",
+                  LineIcons.tooth,
+                ),
+                _buildSpecialtyItem(
+                  context,
+                  "Psychiatry",
+                  LineIcons.brain,
+                ),
+              ],
+            ),
+
+            SizedBox(height: 32 * scale),
+
+            // Pediatrics & Newborn
+            _buildSectionTitle("Pediatrics & Newborn"),
+            SizedBox(height: 16 * scale),
+            _buildSpecialtyRow(
+              context,
+              [
+                _buildSpecialtyItem(
+                  context,
+                  "Pediatrics",
+                  LineIcons.baby,
+                ),
+                _buildSpecialtyItem(
+                  context,
+                  "Newborn Care",
+                  Icons.child_friendly,
+                ),
+                _buildSpecialtyItem(
+                  context,
+                  "Vaccination",
+                  Icons.medical_services,
+                ),
+              ],
+            ),
+
+            SizedBox(height: 32 * scale),
+
+            // Women Health
+            _buildSectionTitle("Women Health"),
+            SizedBox(height: 16 * scale),
+            _buildSpecialtyRow(
+              context,
+              [
+                _buildSpecialtyItem(
+                  context,
+                  "Obstetrics",
+                  LineIcons.female,
+                ),
+                _buildSpecialtyItem(
+                  context,
+                  "Gynecology",
+                  Icons.female,
+                ),
+                _buildSpecialtyItem(
+                  context,
+                  "Fertility",
+                  LineIcons.heart,
+                ),
+              ],
+            ),
+
+            SizedBox(height: 32 * scale),
+
+            // Surgery
+            _buildSectionTitle("Surgery"),
+            SizedBox(height: 16 * scale),
+            _buildSpecialtyRow(
+              context,
+              [
+                _buildSpecialtyItem(
+                  context,
+                  "Orthopedics",
+                  Icons.accessible,
+                ),
+                _buildSpecialtyItem(
+                  context,
+                  "General Surgery",
+                  Icons.medical_services,
+                ),
+                _buildSpecialtyItem(
+                  context,
+                  "Plastic Surgery",
+                  Icons.face,
+                ),
+              ],
+            ),
+
+            SizedBox(height: 32 * scale),
+
+            // ENT
+            _buildSectionTitle("ENT"),
+            SizedBox(height: 16 * scale),
+            _buildSpecialtyRow(
+              context,
+              [
+                _buildSpecialtyItem(
+                  context,
+                  "Ear, Nose & Throat",
+                  Icons.hearing,
+                ),
+              ],
+            ),
+
+            SizedBox(height: 32 * scale),
+
+            // Internal Medicine
+            _buildSectionTitle("Internal Medicine"),
+            SizedBox(height: 16 * scale),
+            _buildSpecialtyRow(
+              context,
+              [
+                _buildSpecialtyItem(
+                  context,
+                  "Cardiology",
+                  LineIcons.heart,
+                ),
+                _buildSpecialtyItem(
+                  context,
+                  "Diabetes",
+                  Icons.monitor_heart,
+                ),
+                _buildSpecialtyItem(
+                  context,
+                  "Gastroenterology",
+                  Icons.health_and_safety,
+                ),
+              ],
+            ),
+
+            SizedBox(height: 32 * scale),
+
+            // Divider - الخط الفاصل
+            Divider(
+              color: AppColors.greyLight,
+              thickness: 1,
+              height: 1,
+            ),
+
+            SizedBox(height: 24 * scale),
+
+            // Other Specialties
+            _buildSectionTitle("Other Specialties"),
+            SizedBox(height: 16 * scale),
+            Wrap(
+              spacing: 12 * scale,
+              runSpacing: 12 * scale,
+              children: [
+                _buildSpecialtyChip(context, "Neurology"),
+                _buildSpecialtyChip(context, "Ophthalmology"),
+                _buildSpecialtyChip(context, "Urology"),
+                _buildSpecialtyChip(context, "Oncology"),
+                _buildSpecialtyChip(context, "Rheumatology"),
+                _buildSpecialtyChip(context, "Endocrinology"),
+                _buildSpecialtyChip(context, "Nephrology"),
+                _buildSpecialtyChip(context, "Pulmonology"),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildSpecialtyCategory(BuildContext context, String category, List<String> specialties) {
+  Widget _buildSectionTitle(String title) {
+    final scale = ResponsiveUtils.getScale(context);
+
+    return Text(
+      title,
+      style: AppTextStyles.headlineSmall.copyWith(
+        fontSize: 18 * scale,
+        fontWeight: FontWeight.bold,
+        color: AppColors.primaryDark,
+      ),
+    );
+  }
+
+  Widget _buildSpecialtyRow(BuildContext context, List<Widget> items) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: items,
+    );
+  }
+
+  Widget _buildSpecialtyItem(BuildContext context, String title, IconData icon) {
     final scale = ResponsiveUtils.getScale(context);
     final isTablet = ResponsiveUtils.isTablet(context);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          category,
-          style: AppTextStyles.headlineSmall.copyWith(
-            fontSize: isTablet ? 20 * scale : 18 * scale,
-            fontWeight: FontWeight.bold,
+    return Expanded(
+      child: GestureDetector(
+        onTap: () {
+          _navigateToSpecialtyDoctors(context, title);
+        },
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 4 * scale),
+          padding: EdgeInsets.all(16 * scale),
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(12 * scale),
+            border: Border.all(
+              color: AppColors.greyLight.withOpacity(0.3),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 4 * scale,
+                offset: Offset(0, 2 * scale),
+              ),
+            ],
           ),
-        ),
-        SizedBox(height: 12 * scale),
-        Wrap(
-          spacing: 12 * scale,
-          runSpacing: 12 * scale,
-          children: specialties.map((specialty) {
-            return GestureDetector(
-              onTap: () => filterBySpecialty(specialty),
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16 * scale,
-                  vertical: 12 * scale,
-                ),
+          child: Column(
+            children: [
+              Container(
+                width: 40 * scale,
+                height: 40 * scale,
                 decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(12 * scale),
-                  border: Border.all(
-                    color: AppColors.primary.withOpacity(0.3),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 4 * scale,
-                      offset: Offset(0, 2 * scale),
-                    ),
-                  ],
+                  color: AppColors.primary.withOpacity(0.1),
+                  shape: BoxShape.circle,
                 ),
-                child: Text(
-                  specialty,
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.primaryDark,
-                    fontWeight: FontWeight.w500,
-                  ),
+                child: Icon(
+                  icon,
+                  color: AppColors.primary,
+                  size: 20 * scale,
                 ),
               ),
-            );
-          }).toList(),
+              SizedBox(height: 8 * scale),
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: isTablet ? 14 * scale : 12 * scale,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.primaryDark,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         ),
-        SizedBox(height: 24 * scale),
-      ],
+      ),
+    );
+  }
+
+  Widget _buildSpecialtyChip(BuildContext context, String specialty) {
+    final scale = ResponsiveUtils.getScale(context);
+
+    return GestureDetector(
+      onTap: () {
+        _navigateToSpecialtyDoctors(context, specialty);
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: 16 * scale,
+          vertical: 10 * scale,
+        ),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(20 * scale),
+          border: Border.all(
+            color: AppColors.primary.withOpacity(0.3),
+          ),
+        ),
+        child: Text(
+          specialty,
+          style: AppTextStyles.bodyMedium.copyWith(
+            color: AppColors.primaryDark,
+            fontWeight: FontWeight.w500,
+            fontSize: 14 * scale,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _navigateToSpecialtyDoctors(BuildContext context, String specialty) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SpecialtyDoctorsPage(
+          specialty: specialty,
+        ),
+      ),
     );
   }
 }

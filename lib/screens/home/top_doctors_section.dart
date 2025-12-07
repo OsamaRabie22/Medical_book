@@ -4,6 +4,7 @@ import '../../core/utils/responsive_utils.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_styles.dart';
 import 'booking_page.dart';
+import 'home_page.dart';
 
 class TopDoctorsSection extends StatelessWidget {
   final List<Map<String, dynamic>> doctors = [
@@ -12,39 +13,54 @@ class TopDoctorsSection extends StatelessWidget {
       'specialty': "Cardiologist",
       'location': "Cairo - Maadi",
       'rating': 4.9,
-      'image': "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
+      'image':
+          "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
     },
     {
       'name': "Dr. Sara Mohamed",
       'specialty': "Dermatologist",
       'location': "Cairo - Nasr City",
       'rating': 4.8,
-      'image': "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
+      'image':
+          "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
     },
     {
       'name': "Dr. Mahmoud Ali",
       'specialty': "Pediatrician",
       'location': "Giza - Dokki",
       'rating': 4.7,
-      'image': "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
+      'image':
+          "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
     },
     {
       'name': "Dr. Mona Samy",
       'specialty': "Dentist",
       'location': "Cairo - Heliopolis",
       'rating': 4.9,
-      'image': "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
+      'image':
+          "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
     },
     {
       'name': "Dr. Khaled Omar",
       'specialty': "Surgeon",
       'location': "Alexandria",
       'rating': 4.6,
-      'image': "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
+      'image':
+          "assets/photogrid.photocollagemaker.photoeditor.squarepic_202422121565198.png",
     },
   ];
 
   TopDoctorsSection({super.key});
+
+  void _navigateToSearchPage(BuildContext context) {
+    // إستبدل الشاشة الحالية بـ HomePage مع index 1 (Search)
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomePage(initialIndex: 1),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +68,11 @@ class TopDoctorsSection extends StatelessWidget {
     final isTablet = ResponsiveUtils.isTablet(context);
 
     return Container(
-      width: double.infinity, // علشان ياخد عرض الشاشة كله
+      width: double.infinity,
       padding: EdgeInsets.all(isTablet ? 20 * scale : 16 * scale),
       decoration: BoxDecoration(
-        color: AppColors.white, // الخلفية البيضاء
-        borderRadius: BorderRadius.circular(20 * scale), // الـ radius
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(20 * scale),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -82,12 +98,7 @@ class TopDoctorsSection extends StatelessWidget {
               ),
               // في جزء الـ See All
               TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SearchPage()),
-                  );
-                },
+                onPressed: () => _navigateToSearchPage(context),
                 child: Text(
                   "See All",
                   style: AppTextStyles.bodyMedium.copyWith(
@@ -127,7 +138,7 @@ class TopDoctorsSection extends StatelessWidget {
                     width: isTablet ? 160 * scale : 140 * scale,
                     margin: EdgeInsets.only(right: 16 * scale),
                     decoration: BoxDecoration(
-                      color: AppColors.scaffoldBackground, // خلفية فاتحة للكروت
+                      color: AppColors.scaffoldBackground,
                       borderRadius: BorderRadius.circular(16 * scale),
                       boxShadow: [
                         BoxShadow(
@@ -165,7 +176,8 @@ class TopDoctorsSection extends StatelessWidget {
                                 ),
                                 decoration: BoxDecoration(
                                   color: AppColors.primary.withOpacity(0.9),
-                                  borderRadius: BorderRadius.circular(12 * scale),
+                                  borderRadius:
+                                      BorderRadius.circular(12 * scale),
                                 ),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -180,7 +192,8 @@ class TopDoctorsSection extends StatelessWidget {
                                       doctor['rating'].toString(),
                                       style: TextStyle(
                                         color: AppColors.white,
-                                        fontSize: isTablet ? 14 * scale : 12 * scale,
+                                        fontSize:
+                                            isTablet ? 14 * scale : 12 * scale,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -232,7 +245,8 @@ class TopDoctorsSection extends StatelessWidget {
                                       doctor['location'],
                                       style: AppTextStyles.bodySmall.copyWith(
                                         color: AppColors.grey,
-                                        fontSize: isTablet ? 12 * scale : 11 * scale,
+                                        fontSize:
+                                            isTablet ? 12 * scale : 11 * scale,
                                       ),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,

@@ -3,19 +3,30 @@ import 'bottom_navigation.dart';
 import 'home_content.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final int initialIndex; // إضف هذا الـ parameter
+
+  const HomePage({
+    super.key,
+    this.initialIndex = 0, // قيمة افتراضية
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
+  late int _currentIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.initialIndex; // إستخدم الـ initialIndex
+  }
 
   // الصفحات اللي هنربطها بالـ BottomNav
   final List<Widget> pages = [
     const HomeContent(),
-    const DoctorsPage(),
+    const DoctorsPage(), // دي هتكون SearchPage دلوقتي
     const AppointmentsPage(),
     const ProfilePage(),
   ];
@@ -42,7 +53,7 @@ class _HomePageState extends State<HomePage> {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       margin: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xFF0D9A8E), // اللون الفيروزي الخارجي
+        color: const Color(0xFF0D9A8E),
         borderRadius: BorderRadius.circular(40),
         boxShadow: [
           BoxShadow(
@@ -95,5 +106,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
 }
