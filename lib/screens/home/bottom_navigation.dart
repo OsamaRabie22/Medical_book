@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/app_styles.dart';
 import '../../core/utils/responsive_utils.dart';
+import '../appointment/appointments_page.dart';
+import 'booking_page.dart';
+import 'doctor_card.dart';
 import 'search_page.dart'; // إحنا هنستخدم SearchPage بدل DoctorsPage
 
 // DoctorsPage إتستبدلت بـ SearchPage
@@ -14,35 +17,11 @@ class DoctorsPage extends StatelessWidget {
   }
 }
 
-// باقي الـ pages تبقى كما هي
-class AppointmentsPage extends StatelessWidget {
+class AppointmentsPage extends StatefulWidget {
   const AppointmentsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final scale = ResponsiveUtils.getScale(context);
-    return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
-      appBar: AppBar(
-        title: Text(
-          "Appointments",
-          style: AppTextStyles.headlineMedium.copyWith(
-            fontSize: 24 * scale,
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: Center(
-        child: Text(
-          "Appointments Page",
-          style: AppTextStyles.headlineMedium.copyWith(
-            fontSize: 24 * scale,
-          ),
-        ),
-      ),
-    );
-  }
+  State<AppointmentsPage> createState() => AppointmentsPageState();
 }
 
 class ProfilePage extends StatelessWidget {
